@@ -56,7 +56,7 @@ fun PinsList(pinsListViewData: List<PinViewData>) {
 
 @Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
+fun ScreenPreview() {
     PinCodeGeneratorTheme {
         PinsListScreenContainer(previewPinsListViewData())
     }
