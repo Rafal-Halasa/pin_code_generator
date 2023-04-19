@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PinCodeGenerator</string>
+    <string name="pin_list_screen_name">Pin Screen List</string>
 </resources>

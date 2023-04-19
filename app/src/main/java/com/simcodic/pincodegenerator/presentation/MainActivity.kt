@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.simcodic.pincodegenerator.presentation.pin_list.PinListScreen
+import com.simcodic.pincodegenerator.presentation.pins_list.PinsListScreen
 import com.simcodic.pincodegenerator.presentation.theme.PinCodeGeneratorTheme
 
 class MainActivity : ComponentActivity() {
@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             PinCodeGeneratorTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    PinListScreen("Android")
+                    PinsListScreen()
                 }
             }
         }
