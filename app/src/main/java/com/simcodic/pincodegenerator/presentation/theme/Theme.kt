@@ -1,4 +1,4 @@
-package com.simcodic.pincodegenerator.ui.theme
+package com.simcodic.pincodegenerator.presentation.theme
 
 import android.app.Activity
 import android.os.Build
