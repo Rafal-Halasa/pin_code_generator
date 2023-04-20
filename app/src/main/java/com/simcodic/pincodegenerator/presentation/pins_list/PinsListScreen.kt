@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -18,20 +19,23 @@ import com.simcodic.pincodegenerator.presentation.pins_list.view_data.previewPin
 import com.simcodic.pincodegenerator.presentation.theme.PinCodeGeneratorTheme
 
 @Composable
-fun PinsListScreen() {
-    PinsListScreenContainer(previewPinsListViewData())
+fun PinsListScreen(pinsListViewModel: PinsListViewModel) {
+    PinsListScreenContainer(pinsListViewModel.uiState.collectAsState().value)
 }
 
 @Composable
-fun PinsListScreenContainer(pinsListViewData: PinsListViewData) {
+fun PinsListScreenContainer(pinsListViewData: PinsListViewData?) {
     Column(modifier = Modifier.fillMaxSize()) {
         CenterAlignedTopAppBar(
             title = {
                 Text(text = stringResource(id = R.string.pin_list_screen_name))
             }
         )
+        if (pinsListViewData == null) {
 
-        PinsList(pinsListViewData.pinList)
+        } else {
+            PinsList(pinsListViewData.pinList)
+        }
     }
 }
 
@@ -53,7 +57,11 @@ private fun PinsList(pinsListViewData: List<PinViewData>) {
 @Composable
 private fun PinListItem(pinViewData: PinViewData) {
     Card(modifier = Modifier.height(50.dp)) {
-        Row(modifier = Modifier.fillMaxWidth().padding(10.dp)) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp)
+        ) {
             Text(
                 text = pinViewData.name,
                 modifier = Modifier.fillMaxWidth(0.5f),
