@@ -9,6 +9,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PinsListViewModel @Inject constructor() : ViewModel() {
+
     private val _pinsListViewData = MutableStateFlow<PinsListViewData?>(null)
     val uiState = _pinsListViewData.asStateFlow()
+
+    fun onAddPin() {
+
+    }
+
+    fun onDeletePin() {
+
+    }
 }
