@@ -6,6 +6,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -74,15 +76,19 @@ private fun CreatePinDialog(onCancelAddPinShowDialog: () -> Unit, onAddPin: () -
     Dialog(onDismissRequest = onCancelAddPinShowDialog) {
         Card(
             modifier = Modifier
-                .height(height = 40.dp)
                 .padding(horizontal = 10.dp)
         ) {
-            Text(text = "test")
-            TextButton(onClick = onCancelAddPinShowDialog) {
-                Text(text = "Add")
-            }
-            TextButton(onClick = onAddPin) {
-                Text(text = "Cancel")
+            Column {
+                val pinName = remember { mutableStateOf("") }
+                TextField(value = pinName.value, onValueChange = { pinName.value = it }, singleLine = true)
+                Row {
+                    TextButton(onClick = onAddPin) {
+                        Text(text = stringResource(R.string.common_add))
+                    }
+                    TextButton(onClick = onCancelAddPinShowDialog) {
+                        Text(text = stringResource(R.string.common_cancel))
+                    }
+                }
             }
         }
     }

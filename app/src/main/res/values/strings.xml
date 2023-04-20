@@ -2,4 +2,6 @@
     <string name="app_name">PinCodeGenerator</string>
     <string name="pin_list_screen_name">Pin Screen List</string>
     <string name="common_delete">Delete</string>
+    <string name="common_add">Add</string>
+    <string name="common_cancel">Cancel</string>
 </resources>
