@@ -40,11 +40,9 @@ fun PinsListScreenContainer(pinsListViewData: PinsListViewData) {
 
 @Composable
 private fun PinsList(pinsListViewData: List<PinViewData>) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(15.dp)
-    ) {
+    LazyColumn(modifier = Modifier
+        .fillMaxWidth()
+        .padding(15.dp)) {
         items(pinsListViewData) { pinViewData ->
             PinListItem(pinViewData)
             Spacer(modifier = Modifier.height(10.dp))
