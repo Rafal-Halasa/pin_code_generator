@@ -43,10 +43,10 @@ fun PinsList(pinsListViewData: List<PinViewData>) {
     LazyColumn {
         items(pinsListViewData) { pinViewData ->
             Row(modifier = Modifier.fillMaxWidth()) {
-                Text(text = pinViewData.name, modifier = Modifier.fillMaxWidth(0.6f))
-                Text(text = pinViewData.pin, modifier = Modifier.fillMaxWidth(0.6f))
+                Text(text = pinViewData.name, modifier = Modifier.fillMaxWidth(0.5f))
+                Text(text = pinViewData.pin, modifier = Modifier.fillMaxWidth(0.3f))
                 Icon(
-                    modifier = Modifier.fillMaxWidth(0.6f),
+                    modifier = Modifier.fillMaxWidth(0.2f),
                     painter = painterResource(id = R.drawable.ic_delete),
                     contentDescription = stringResource(id = R.string.common_delete)
                 )
