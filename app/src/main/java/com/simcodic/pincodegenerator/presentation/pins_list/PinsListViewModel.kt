@@ -13,8 +13,15 @@ class PinsListViewModel @Inject constructor() : ViewModel() {
     private val _pinsListViewData = MutableStateFlow<PinsListViewData?>(null)
     val uiState = _pinsListViewData.asStateFlow()
 
-    fun onAddPin() {
+    private val _showCreatePinDialog = MutableStateFlow(false)
+    val showCreatePinDialog = _showCreatePinDialog.asStateFlow()
 
+    fun onAddPin() {
+        _showCreatePinDialog.value = true
+    }
+
+    fun onCancelAddPin() {
+        _showCreatePinDialog.value = false
     }
 
     fun onDeletePin() {

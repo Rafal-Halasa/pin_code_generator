@@ -13,6 +13,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import com.simcodic.pincodegenerator.R
 import com.simcodic.pincodegenerator.presentation.pins_list.view_data.PinViewData
 import com.simcodic.pincodegenerator.presentation.pins_list.view_data.PinsListViewData
@@ -21,21 +22,52 @@ import com.simcodic.pincodegenerator.presentation.theme.PinCodeGeneratorTheme
 
 @Composable
 fun PinsListScreen(pinsListViewModel: PinsListViewModel) {
-    PinsListScreenContainer(pinsListViewModel.uiState.collectAsState().value)
+    PinsListScreenContainer(
+        pinsListViewModel.uiState.collectAsState().value,
+        pinsListViewModel.showCreatePinDialog.collectAsState().value,
+        pinsListViewModel::onAddPin,
+        pinsListViewModel::onCancelAddPin,
+    )
 }
 
 @Composable
-fun PinsListScreenContainer(pinsListViewData: PinsListViewData?) {
+fun PinsListScreenContainer(
+    pinsListViewData: PinsListViewData?,
+    showCreatePinDialog: Boolean,
+    onAddPin: () -> Unit,
+    onCancelAddPin: () -> Unit
+) {
     Column(modifier = Modifier.fillMaxSize()) {
         CenterAlignedTopAppBar(
             title = {
                 Text(text = stringResource(id = R.string.pin_list_screen_name))
             }
         )
+
         if (pinsListViewData == null) {
             EmptyListPlaceHolder()
         } else {
-            PinsList(pinsListViewData.pinList)
+            PinsList(pinsListViewData = pinsListViewData.pinList)
+        }
+        if (showCreatePinDialog) {
+            CreatePinDialog(onAddPin = onAddPin, onCancelAddPin = onCancelAddPin)
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun CreatePinDialog(onAddPin: () -> Unit, onCancelAddPin: () -> Unit) {
+    Dialog(onDismissRequest = onCancelAddPin) {
+        Card(
+            modifier = Modifier
+                .height(height = 40.dp)
+                .padding(horizontal = 10.dp)
+        ) {
+            Text(text = "test")
+            TextButton(onClick = { /*TODO*/ }) {
+                Text(text = "dasd")
+            }
         }
     }
 }
@@ -46,7 +78,6 @@ private fun EmptyListPlaceHolder() {
         text = "Empty list", modifier = Modifier.fillMaxSize(),
         textAlign = TextAlign.Center
     )
-
 }
 
 @Composable
@@ -98,7 +129,7 @@ private fun PinListItem(pinViewData: PinViewData) {
 @Composable
 fun ScreenPreview() {
     PinCodeGeneratorTheme {
-        PinsListScreenContainer(previewPinsListViewData())
+        PinsListScreenContainer(previewPinsListViewData(), false, {}, {})
     }
 }
 
@@ -106,6 +137,6 @@ fun ScreenPreview() {
 @Composable
 fun ScreenPreviewEmptyList() {
     PinCodeGeneratorTheme {
-        PinsListScreenContainer(null)
+        PinsListScreenContainer(null, false, {}, {})
     }
 }
