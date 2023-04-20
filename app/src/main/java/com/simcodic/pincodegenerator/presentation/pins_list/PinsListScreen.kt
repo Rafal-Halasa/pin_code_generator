@@ -1,19 +1,19 @@
 package com.simcodic.pincodegenerator.presentation.pins_list
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.simcodic.pincodegenerator.R
 import com.simcodic.pincodegenerator.presentation.pins_list.view_data.PinViewData
 import com.simcodic.pincodegenerator.presentation.pins_list.view_data.PinsListViewData
@@ -39,19 +39,35 @@ fun PinsListScreenContainer(pinsListViewData: PinsListViewData) {
 }
 
 @Composable
-fun PinsList(pinsListViewData: List<PinViewData>) {
-    LazyColumn {
+private fun PinsList(pinsListViewData: List<PinViewData>) {
+    LazyColumn(modifier = Modifier.fillMaxWidth()) {
         items(pinsListViewData) { pinViewData ->
-            Row(modifier = Modifier.fillMaxWidth()) {
-                Text(text = pinViewData.name, modifier = Modifier.fillMaxWidth(0.5f))
-                Text(text = pinViewData.pin, modifier = Modifier.fillMaxWidth(0.3f))
-                Icon(
-                    modifier = Modifier.fillMaxWidth(0.2f),
-                    painter = painterResource(id = R.drawable.ic_delete),
-                    contentDescription = stringResource(id = R.string.common_delete)
-                )
-            }
+            PinListItem(pinViewData)
+            Spacer(modifier = Modifier.height(10.dp))
         }
+    }
+}
+
+@Composable
+private fun PinListItem(pinViewData: PinViewData) {
+    Row(modifier = Modifier.fillMaxWidth()) {
+        Text(
+            text = pinViewData.name,
+            modifier = Modifier.fillMaxWidth(0.5f),
+            style = MaterialTheme.typography.titleLarge,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+        Spacer(modifier = Modifier.width(10.dp))
+        Text(
+            text = pinViewData.pin,
+            modifier = Modifier.fillMaxWidth(0.5f),
+            style = MaterialTheme.typography.titleLarge
+        )
+        Icon(
+            painter = painterResource(id = R.drawable.ic_delete),
+            contentDescription = stringResource(id = R.string.common_delete)
+        )
     }
 }
 
