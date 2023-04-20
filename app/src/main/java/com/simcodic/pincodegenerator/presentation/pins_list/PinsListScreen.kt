@@ -40,7 +40,11 @@ fun PinsListScreenContainer(pinsListViewData: PinsListViewData) {
 
 @Composable
 private fun PinsList(pinsListViewData: List<PinViewData>) {
-    LazyColumn(modifier = Modifier.fillMaxWidth()) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(15.dp)
+    ) {
         items(pinsListViewData) { pinViewData ->
             PinListItem(pinViewData)
             Spacer(modifier = Modifier.height(10.dp))
@@ -64,6 +68,7 @@ private fun PinListItem(pinViewData: PinViewData) {
             modifier = Modifier.fillMaxWidth(0.5f),
             style = MaterialTheme.typography.titleLarge
         )
+        Spacer(modifier = Modifier.weight(1f))
         Icon(
             painter = painterResource(id = R.drawable.ic_delete),
             contentDescription = stringResource(id = R.string.common_delete)
