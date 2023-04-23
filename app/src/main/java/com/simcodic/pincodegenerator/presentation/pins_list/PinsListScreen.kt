@@ -1,5 +1,6 @@
 package com.simcodic.pincodegenerator.presentation.pins_list
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -12,7 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -30,6 +30,7 @@ fun PinsListScreen(pinsListViewModel: PinsListViewModel) {
         pinsListViewModel::onAddPinShowDialog,
         pinsListViewModel::onCancelAddPinShowDialog,
         pinsListViewModel::onAddPin,
+        pinsListViewModel::onDeletePin,
     )
 }
 
@@ -39,7 +40,8 @@ fun PinsListScreenContainer(
     showCreatePinDialog: Boolean,
     onAddPinShowDialog: () -> Unit,
     onCancelAddPinShowDialog: () -> Unit,
-    onAddPin: () -> Unit
+    onAddPin: () -> Unit,
+    onDeletePin: (PinCodeViewData) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         CenterAlignedTopAppBar(
@@ -47,12 +49,12 @@ fun PinsListScreenContainer(
                 Text(text = stringResource(id = R.string.pin_list_screen_name))
             }
         )
-        Box{
-            if (pinsListViewData == null) {
-                EmptyListPlaceHolder()
-            } else {
-                PinsList(pinsListViewData = pinsListViewData, onAddPinShowDialog = onAddPinShowDialog)
-            }
+        Box {
+            PinsList(
+                pinsListViewData = pinsListViewData ?: listOf(),
+                onAddPinShowDialog = onAddPinShowDialog,
+                onDeletePin = onDeletePin
+            )
         }
         if (showCreatePinDialog) {
             CreatePinDialog(onCancelAddPinShowDialog = onCancelAddPinShowDialog, onAddPin = onAddPin)
@@ -85,43 +87,44 @@ private fun CreatePinDialog(onCancelAddPinShowDialog: () -> Unit, onAddPin: () -
 }
 
 @Composable
-private fun EmptyListPlaceHolder() {
-    Text(
-        text = "Empty list", modifier = Modifier.fillMaxWidth(),
-        textAlign = TextAlign.Center
-    )
-}
-
-@Composable
-private fun PinsList(pinsListViewData: List<PinCodeViewData>, onAddPinShowDialog: () -> Unit) {
+private fun PinsList(
+    pinsListViewData: List<PinCodeViewData>,
+    onAddPinShowDialog: () -> Unit,
+    onDeletePin: (PinCodeViewData) -> Unit
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
             .padding(15.dp)
     ) {
         items(pinsListViewData) { pinViewData ->
-            PinListItem(pinViewData)
+            PinListItem(pinCodeViewData = pinViewData, onDeletePin = onDeletePin)
             Spacer(modifier = Modifier.height(10.dp))
         }
         item {
-            Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()){
-                Spacer(modifier = Modifier.weight(1f))
-                TextButton(
-                    onClick = onAddPinShowDialog,
-                    modifier = Modifier.width(200.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
-                ) {
-                    Text(text = "Add Pin")
-                }
-                Spacer(modifier = Modifier.height(15.dp))
+            Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
+                AddPinButton(onAddPinShowDialog)
             }
         }
     }
 }
 
+@Composable
+private fun ColumnScope.AddPinButton(onAddPinShowDialog: () -> Unit) {
+    Spacer(modifier = Modifier.weight(1f))
+    TextButton(
+        onClick = onAddPinShowDialog,
+        modifier = Modifier.width(200.dp),
+        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
+    ) {
+        Text(text = "Add Pin")
+    }
+    Spacer(modifier = Modifier.height(15.dp))
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun PinListItem(pinCodeViewData: PinCodeViewData) {
+private fun PinListItem(pinCodeViewData: PinCodeViewData, onDeletePin: (PinCodeViewData) -> Unit) {
     Card(modifier = Modifier.height(50.dp)) {
         Row(
             modifier = Modifier
@@ -143,6 +146,7 @@ private fun PinListItem(pinCodeViewData: PinCodeViewData) {
             )
             Spacer(modifier = Modifier.weight(1f))
             Icon(
+                modifier = Modifier.clickable { onDeletePin(pinCodeViewData) },
                 painter = painterResource(id = R.drawable.ic_delete),
                 contentDescription = stringResource(id = R.string.common_delete)
             )
@@ -154,7 +158,7 @@ private fun PinListItem(pinCodeViewData: PinCodeViewData) {
 @Composable
 fun ScreenPreview() {
     PinCodeGeneratorTheme {
-        PinsListScreenContainer(previewPinsListViewData(), false, {}, {}, {})
+        PinsListScreenContainer(previewPinsListViewData(), false, {}, {}, {}, {})
     }
 }
 
@@ -162,6 +166,6 @@ fun ScreenPreview() {
 @Composable
 fun ScreenPreviewEmptyList() {
     PinCodeGeneratorTheme {
-        PinsListScreenContainer(null, false, {}, {}, {})
+        PinsListScreenContainer(null, false, {}, {}, {}, {})
     }
 }

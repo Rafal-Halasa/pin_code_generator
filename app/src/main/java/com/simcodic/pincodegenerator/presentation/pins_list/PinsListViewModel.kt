@@ -4,11 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.simcodic.pincodegenerator.domain.data.PinCode
 import com.simcodic.pincodegenerator.domain.data.toViewData
-import com.simcodic.pincodegenerator.domain.pin_list.GetPinUseCase
-import com.simcodic.pincodegenerator.domain.pin_list.SNRPinGenerator
-import com.simcodic.pincodegenerator.domain.pin_list.SavePinInput
-import com.simcodic.pincodegenerator.domain.pin_list.SavePinUseCase
+import com.simcodic.pincodegenerator.domain.pin_list.*
 import com.simcodic.pincodegenerator.presentation.pins_list.view_data.PinCodeViewData
+import com.simcodic.pincodegenerator.presentation.pins_list.view_data.toDomainModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,7 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class PinsListViewModel @Inject constructor(
     val savePinUseCase: SavePinUseCase,
-    val getPinUseCase: GetPinUseCase
+    val getPinUseCase: GetPinUseCase,
+    val deletePinUseCase: DeletePinUseCase,
 ) : ViewModel() {
 
     private val _pinsListViewData = MutableStateFlow<List<PinCodeViewData>?>(null)
@@ -56,7 +55,9 @@ class PinsListViewModel @Inject constructor(
     }
 
 
-    fun onDeletePin() {
-
+    fun onDeletePin(pinCodeViewData: PinCodeViewData) {
+        viewModelScope.launch {
+            deletePinUseCase(DeletePinInput(pinCode = pinCodeViewData.toDomainModel()))
+        }
     }
 }

@@ -15,4 +15,4 @@ data class PinCode(
     @ColumnInfo(name = "pin_code") val pinCode: String
 )
 
-fun PinCode.toDomainModel() = PinCodeDomain(name = name, pinCode = pinCode)
+fun PinCode.toDomainModel() = PinCodeDomain(id = uid, name = name, pinCode = pinCode)
