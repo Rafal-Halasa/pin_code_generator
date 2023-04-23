@@ -42,10 +42,10 @@ class PinsListViewModel @Inject constructor(
         _showCreatePinDialog.value = false
     }
 
-    fun onAddPin() {
+    fun onAddPin(name: String) {
         viewModelScope.launch {
             runCatching {
-                savePinUseCase(SavePinInput(PinCode(name = "name", pinCode = SNRPinGenerator.generate())))
+                savePinUseCase(SavePinInput(PinCode(name = name, pinCode = SNRPinGenerator.generate())))
             }.onSuccess {
                 _showCreatePinDialog.value = false
             }.onFailure {

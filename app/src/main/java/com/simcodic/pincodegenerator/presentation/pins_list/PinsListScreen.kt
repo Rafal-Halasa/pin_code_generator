@@ -40,7 +40,7 @@ fun PinsListScreenContainer(
     showCreatePinDialog: Boolean,
     onAddPinShowDialog: () -> Unit,
     onCancelAddPinShowDialog: () -> Unit,
-    onAddPin: () -> Unit,
+    onAddPin: (String) -> Unit,
     onDeletePin: (PinCodeViewData) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -64,7 +64,7 @@ fun PinsListScreenContainer(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun CreatePinDialog(onCancelAddPinShowDialog: () -> Unit, onAddPin: () -> Unit) {
+private fun CreatePinDialog(onCancelAddPinShowDialog: () -> Unit, onAddPin: (String) -> Unit) {
     Dialog(onDismissRequest = onCancelAddPinShowDialog) {
         Card(
             modifier = Modifier
@@ -74,7 +74,7 @@ private fun CreatePinDialog(onCancelAddPinShowDialog: () -> Unit, onAddPin: () -
                 val pinName = remember { mutableStateOf("") }
                 TextField(value = pinName.value, onValueChange = { pinName.value = it }, singleLine = true)
                 Row {
-                    TextButton(onClick = onAddPin) {
+                    TextButton(onClick = { onAddPin(pinName.value) }) {
                         Text(text = stringResource(R.string.common_add))
                     }
                     TextButton(onClick = onCancelAddPinShowDialog) {
