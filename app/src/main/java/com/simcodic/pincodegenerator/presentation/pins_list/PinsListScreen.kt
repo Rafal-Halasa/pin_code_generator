@@ -47,25 +47,16 @@ fun PinsListScreenContainer(
                 Text(text = stringResource(id = R.string.pin_list_screen_name))
             }
         )
-
-        if (pinsListViewData == null) {
-            EmptyListPlaceHolder()
-        } else {
-            PinsList(pinsListViewData = pinsListViewData)
+        Box{
+            if (pinsListViewData == null) {
+                EmptyListPlaceHolder()
+            } else {
+                PinsList(pinsListViewData = pinsListViewData, onAddPinShowDialog = onAddPinShowDialog)
+            }
         }
         if (showCreatePinDialog) {
             CreatePinDialog(onCancelAddPinShowDialog = onCancelAddPinShowDialog, onAddPin = onAddPin)
         }
-
-        Spacer(modifier = Modifier.weight(1f))
-        TextButton(
-            onClick = onAddPinShowDialog,
-            modifier = Modifier.width(200.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
-        ) {
-            Text(text = "Add Pin")
-        }
-        Spacer(modifier = Modifier.height(15.dp))
     }
 }
 
@@ -102,7 +93,7 @@ private fun EmptyListPlaceHolder() {
 }
 
 @Composable
-private fun PinsList(pinsListViewData: List<PinCodeViewData>) {
+private fun PinsList(pinsListViewData: List<PinCodeViewData>, onAddPinShowDialog: () -> Unit) {
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
@@ -111,6 +102,19 @@ private fun PinsList(pinsListViewData: List<PinCodeViewData>) {
         items(pinsListViewData) { pinViewData ->
             PinListItem(pinViewData)
             Spacer(modifier = Modifier.height(10.dp))
+        }
+        item {
+            Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()){
+                Spacer(modifier = Modifier.weight(1f))
+                TextButton(
+                    onClick = onAddPinShowDialog,
+                    modifier = Modifier.width(200.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
+                ) {
+                    Text(text = "Add Pin")
+                }
+                Spacer(modifier = Modifier.height(15.dp))
+            }
         }
     }
 }
