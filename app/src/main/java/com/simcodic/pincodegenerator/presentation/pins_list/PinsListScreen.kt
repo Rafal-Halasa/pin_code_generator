@@ -139,9 +139,10 @@ private fun PinListItem(pinCodeViewData: PinCodeViewData, onDeletePin: (PinCodeV
                 overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.width(10.dp))
+
             Text(
                 text = pinCodeViewData.pinCode,
-                modifier = Modifier.fillMaxWidth(0.5f),
+                modifier = Modifier.fillMaxWidth(0.7f),
                 style = MaterialTheme.typography.titleLarge
             )
             Spacer(modifier = Modifier.weight(1f))
