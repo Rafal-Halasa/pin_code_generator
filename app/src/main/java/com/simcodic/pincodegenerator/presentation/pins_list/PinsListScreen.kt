@@ -18,8 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.simcodic.pincodegenerator.R
-import com.simcodic.pincodegenerator.presentation.pins_list.view_data.PinViewData
-import com.simcodic.pincodegenerator.presentation.pins_list.view_data.PinsListViewData
+import com.simcodic.pincodegenerator.presentation.pins_list.view_data.PinCodeViewData
 import com.simcodic.pincodegenerator.presentation.pins_list.view_data.previewPinsListViewData
 import com.simcodic.pincodegenerator.presentation.theme.PinCodeGeneratorTheme
 
@@ -36,7 +35,7 @@ fun PinsListScreen(pinsListViewModel: PinsListViewModel) {
 
 @Composable
 fun PinsListScreenContainer(
-    pinsListViewData: PinsListViewData?,
+    pinsListViewData: List<PinCodeViewData>?,
     showCreatePinDialog: Boolean,
     onAddPinShowDialog: () -> Unit,
     onCancelAddPinShowDialog: () -> Unit,
@@ -52,7 +51,7 @@ fun PinsListScreenContainer(
         if (pinsListViewData == null) {
             EmptyListPlaceHolder()
         } else {
-            PinsList(pinsListViewData = pinsListViewData.pinList)
+            PinsList(pinsListViewData = pinsListViewData)
         }
         if (showCreatePinDialog) {
             CreatePinDialog(onCancelAddPinShowDialog = onCancelAddPinShowDialog, onAddPin = onAddPin)
@@ -103,7 +102,7 @@ private fun EmptyListPlaceHolder() {
 }
 
 @Composable
-private fun PinsList(pinsListViewData: List<PinViewData>) {
+private fun PinsList(pinsListViewData: List<PinCodeViewData>) {
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
@@ -118,7 +117,7 @@ private fun PinsList(pinsListViewData: List<PinViewData>) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun PinListItem(pinViewData: PinViewData) {
+private fun PinListItem(pinCodeViewData: PinCodeViewData) {
     Card(modifier = Modifier.height(50.dp)) {
         Row(
             modifier = Modifier
@@ -126,7 +125,7 @@ private fun PinListItem(pinViewData: PinViewData) {
                 .padding(10.dp)
         ) {
             Text(
-                text = pinViewData.name,
+                text = pinCodeViewData.name,
                 modifier = Modifier.fillMaxWidth(0.5f),
                 style = MaterialTheme.typography.titleLarge,
                 maxLines = 1,
@@ -134,7 +133,7 @@ private fun PinListItem(pinViewData: PinViewData) {
             )
             Spacer(modifier = Modifier.width(10.dp))
             Text(
-                text = pinViewData.pin,
+                text = pinCodeViewData.pinCode,
                 modifier = Modifier.fillMaxWidth(0.5f),
                 style = MaterialTheme.typography.titleLarge
             )
