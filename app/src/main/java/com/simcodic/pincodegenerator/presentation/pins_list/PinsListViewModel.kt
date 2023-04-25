@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.simcodic.pincodegenerator.domain.data.PinCode
 import com.simcodic.pincodegenerator.domain.data.toViewData
 import com.simcodic.pincodegenerator.domain.pin_list.*
+import com.simcodic.pincodegenerator.domain.pin_list.generators.SNRPinGenerator
 import com.simcodic.pincodegenerator.presentation.pins_list.view_data.PinCodeViewData
 import com.simcodic.pincodegenerator.presentation.pins_list.view_data.toDomainModel
 import dagger.hilt.android.lifecycle.HiltViewModel

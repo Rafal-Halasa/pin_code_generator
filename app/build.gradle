@@ -49,6 +49,11 @@ android {
     kapt {
         correctErrorTypes true
     }
+    android.testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+    }
 }
 
 dependencies {
@@ -60,13 +65,18 @@ dependencies {
     implementation 'androidx.compose.material3:material3:1.0.0-alpha11'
     implementation "androidx.navigation:navigation-compose:2.5.1"
     implementation "com.google.dagger:hilt-android:2.44"
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'junit:junit:4.12'
     kapt "com.google.dagger:hilt-compiler:2.44"
     implementation "androidx.room:room-runtime:2.5.1"
     annotationProcessor "androidx.room:room-compiler:2.5.1"
     kapt "androidx.room:room-compiler:2.5.1"
     implementation "androidx.room:room-ktx:2.5.1"
 
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testImplementation 'junit:junit:4.13.2'
+    testImplementation 'androidx.arch.core:core-runtime:2.2.0'
+    testImplementation 'io.kotest:kotest-assertions-core:5.5.5'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"

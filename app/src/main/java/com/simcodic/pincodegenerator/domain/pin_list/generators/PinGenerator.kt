@@ -1,4 +1,4 @@
-package com.simcodic.pincodegenerator.domain.pin_list
+package com.simcodic.pincodegenerator.domain.pin_list.generators
 
 import kotlin.random.Random
 
@@ -8,11 +8,11 @@ interface PinGenerator {
 
 object SNRPinGenerator : PinGenerator {
     override fun generate(pinSize: Int): String {
-        var s = ""
+        var stringValue = ""
         for (i in 1..pinSize) {
-            s += s.ifContainsThen()
+            stringValue += stringValue.ifContainsThen()
         }
-        return s
+        return stringValue
     }
 }
 
@@ -23,7 +23,7 @@ private fun CharSequence.ifContainsThen(): String {
         return runNumber
     }
 
-    return if (contains(runNumber)) {
+    return if (count { it.toString() == runNumber } == 3) {
         ifContainsThen()
     } else {
         runNumber
